@@ -36,10 +36,12 @@
           <md-input v-model="email" placeholder="Email Address"></md-input>
         </md-input-container>
         <md-input-container>
-          <label>Coordinate</label>
-          <md-input v-model="coordinate" placeholder="Coordinate"></md-input>
+          <label>Location (Mark the map below)</label>
+          <md-input :value="marker.lat+','+marker.lng" placeholder="Coordinate" style="color: grey"></md-input>
         </md-input-container>
         <test2></test2>
+        <router-link to='/'><md-button v-on:click.native="closeAddForm" class="md-raised md-primary">Cancel</md-button></router-link>
+        <md-button v-on:click.native="addHouse" class="md-raised md-primary" type="button">Post a New House Ad</md-button>
       </form>
     </div>
   </div>
@@ -51,6 +53,11 @@ import Test2 from './Test2';
 
 export default {
   name: 'addHouse',
+  computed: {
+    marker() {
+      return this.$store.getters.marker;
+    }
+  },
   data: function() {
     return {
       title: '',
@@ -60,11 +67,36 @@ export default {
       imgUrl: '',
       contact_person: '',
       phone: '',
-      email: '',
-      coordinate: ''
+      email: ''
     }
   },
-  components: { Test2 }
+  components: { Test2 },
+  methods: {
+    addHouse() {
+      console.log('addhouse.vue methods addhouse');
+      let house = {
+        title: this.title,
+        description: this.description,
+        price: this.price,
+        address: this.address,
+        imgUrl: this.imgUrl,
+        contact_person: this.contact_person,
+        phone: this.phone,
+        email: this.email,
+        coordinate: `${this.marker.lat},${this.marker.lng}`
+      };
+      this.$store.dispatch('addHouse', house);
+      this.closeAddForm();
+      this.$router.push('/');
+    },
+    closeAddForm() {
+      console.log('addhouse.vue methods closeAddForm');
+      this.$store.commit('closeAddForm');
+    }
+  },
+  mounted: function() {
+    this.$store.commit('showAddForm');
+  }
 }
 </script>
 

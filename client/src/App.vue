@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view></router-view>
-    <router-link to='/addHouse'><md-button class="md-raised md-primary">Add House for Sale</md-button></router-link>
-    <houseList></houseList>
+    <router-link to='/addHouse' v-if="isAddFormShown === false" v-on:click.native="showAddForm"><md-button class="md-raised md-primary">Add House for Sale</md-button></router-link>
+    <houseList v-if="!isAddFormShown" ></houseList>
   </div>
 </template>
 
@@ -15,6 +14,14 @@ import GMap from './components/GMap';
 
 export default {
   name: 'app',
+  computed: {
+    isAddFormShown() {
+      return this.$store.getters.isAddFormShown;
+    }
+  },
+  data: function() {
+    return {}
+  },
   components: {
     HouseList, AddHouse, Test, GMap
   },
@@ -22,11 +29,24 @@ export default {
     fetchHouses() {
       console.log('app.vue methods fetchHouses');
       this.$store.dispatch('fetchHouses');
+    },
+    showAddForm() {
+      console.log('app.vue methods showAddForm');
+      this.$store.commit('showAddForm');
+      this.$router.push('/addHouse');
+    },
+    closeAddForm() {
+      console.log('app.vue methods closeAddForm');
+      this.$store.commit('closeAddForm');
     }
   },
   created: function() {
     console.log('app.vue created');
     this.fetchHouses();
+    this.closeAddForm();
+  },
+  mounted: function() {
+    this.closeAddForm();
   }
 }
 </script>

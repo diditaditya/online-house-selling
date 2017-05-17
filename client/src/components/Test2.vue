@@ -1,15 +1,15 @@
 <template lang="html">
-  <div id="map">
+  <div id="mapAddHouse">
     <gmap-map
-    :center="center"
+    :center="stateMarker"
     :zoom="18"
     :clickable="true"
     scrollwheel="false"
-    style="width: 500px; height: 300px"
+    style="width: 100%; height: 500px"
     v-on:click="mapClicked"
   >
     <gmap-marker
-      :position="center"
+      :position="stateMarker"
       :clickable="true"
       :draggable="true"
       @g-click="center"
@@ -22,22 +22,39 @@
 
 export default {
   name: 'test2',
+  computed: {
+    stateMarker() {
+      return this.$store.getters.marker;
+    }
+  },
   data: function() {
     return {
-      center: {lat: -6.2372963, lng: 106.7904324},
-      markers: [{position: {lat: -6.2372963, lng: -6.2372963}}]
+      center: {lat: -6.2372963, lng: 106.7904324}
     }
   },
   methods: {
     mapClicked: function(mouseArgs) {
-      // alert('clicked');
-      console.log('map clicked', mouseArgs);
-      console.log(mouseArgs.latLng.lat());
-      console.log(mouseArgs.latLng.lng());
+      let coordinate = {
+        lat: mouseArgs.latLng.lat(),
+        lng: mouseArgs.latLng.lng()
+      };
+      this.$store.commit('setMarker', coordinate);
+    },
+    setMarker: function() {
+
     }
   }
 }
 </script>
 
 <style lang="css">
+
+#mapAddHouse {
+  text-align: center;
+  display: block;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
 </style>

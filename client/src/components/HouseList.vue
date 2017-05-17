@@ -7,12 +7,18 @@
             <img :src="house.imgUrl" alt="house image" class="thumbnail">
           </md-layout>
           <md-layout md-flex-small="33" class="showCase">
-            <h3>{{ house.title }}</h3>
-            <p>{{ house.description }}</p>
-            <h4>IDR {{ house.price }}</h4>
+            <div class="">
+              <span>{{ house.title }}</span><br>
+              <span>{{ house.description }}</span><br>
+              <span>IDR {{ house.price }}</span><br>
+              <span>Contact:</span><br>
+              <span>{{ house.contact_person }}</span><br>
+              <span>{{ house.phone }}</span><br>
+              <span>{{ house.email }}</span>
+            </div>
           </md-layout>
           <md-layout md-flex-small="33" class="showCase">
-            <test></test>
+            <test :coordinate="house.coordinate"></test>
           </md-layout>
         </md-layout>
       </div>

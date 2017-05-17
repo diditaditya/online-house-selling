@@ -1,13 +1,13 @@
 <template lang="html">
   <div id="map">
     <gmap-map
-    :center="center"
-    :zoom="18"
+    :center="marker"
+    :zoom="15"
     scrollwheel="false"
     style="width: 500px; height: 300px"
   >
     <gmap-marker
-      :position="center"
+      :position="marker"
     ></gmap-marker>
   </gmap-map>
   </div>
@@ -19,20 +19,22 @@ let map;
 
 export default {
   name: 'test',
+  props: ['coordinate'],
   data: function() {
     return {
       center: {lat: -6.2372963, lng: 106.7904324},
-      markers: [{position: {lat: -6.2372963, lng: -6.2372963}}]
+      marker: {}
     }
   },
   methods: {
-    // initMap() {
-    //   let self = this;
-    //   new google.maps.Map(document.getElementById('map'),{
-    //     center: {lat: -6.2372963, lng: 106.7904324},
-    //     zoom: 8
-    //   });
-    // }
+    parseCoordinate() {
+      let parsedCoor = this.coordinate.split(",");
+      this.marker.lat = Number(parsedCoor[0]);
+      this.marker.lng = Number(parsedCoor[1]);
+    }
+  },
+  mounted: function() {
+    this.parseCoordinate();
   }
 }
 </script>
